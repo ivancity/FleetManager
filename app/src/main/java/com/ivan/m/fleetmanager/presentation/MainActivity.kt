@@ -36,19 +36,13 @@ class MainActivity : ComponentActivity() {
                         composable(
                             route = Screen.LatestDataListScreen.route
                         ) {
-                            LatestDataListScreen()
+                            LatestDataListScreen(
+                                navController = navController
+                            )
                         }
                     }
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    FleetManagerTheme {
-        LatestDataListScreen()
     }
 }
