@@ -15,7 +15,7 @@ class FleetRepositoryImpl @Inject constructor(
     private val api: FleetApi
 ) : FleetRepository {
 
-    val key: String = "home.assignment.2-1230927"
+    val key: String = ""
 
     override suspend fun getLatestData(): List<VehicleLastData> {
         val lastResponse = api.getLastData(key = key)
