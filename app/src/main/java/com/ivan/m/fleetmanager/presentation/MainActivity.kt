@@ -10,6 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.ivan.m.fleetmanager.presentation.latest_data_list.LatestDataListScreen
 import com.ivan.m.fleetmanager.presentation.ui.theme.FleetManagerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,22 +28,27 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.LatestDataListScreen.route
+                    ) {
+                        composable(
+                            route = Screen.LatestDataListScreen.route
+                        ) {
+                            LatestDataListScreen()
+                        }
+                    }
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     FleetManagerTheme {
-        Greeting("Android")
+        LatestDataListScreen()
     }
 }
