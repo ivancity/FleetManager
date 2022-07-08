@@ -12,6 +12,10 @@ import javax.inject.Inject
 class GetLatestDataUseCase @Inject constructor(
     private val repository: FleetRepository
 ) {
+
+    /**
+     * We are overriding the operator function in this way getCoinUseCase can be used as a function.
+     */
     operator fun invoke(): Flow<Resource<List<VehicleLastData>>> = flow {
         try {
             emit(Resource.Loading())
