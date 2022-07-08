@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ivan.m.fleetmanager.common.Constants
 import com.ivan.m.fleetmanager.presentation.components.AppBar
 import com.ivan.m.fleetmanager.presentation.components.AppBarState
 import com.ivan.m.fleetmanager.presentation.latest_data_list.LatestDataListScreen
@@ -51,13 +52,13 @@ class MainActivity : ComponentActivity() {
                                 },
                                 goToVehicleHistoryScreen = {
                                     navController.navigate(
-                                        Screen.VehicleHistoryScreen.route
+                                        Screen.VehicleHistoryScreen.route + "/$it"
                                     )
                                 }
                             )
                         }
                         composable(
-                            route = Screen.VehicleHistoryScreen.route
+                            route = Screen.VehicleHistoryScreen.route + "/{${Constants.PARAM_HISTORY}}"
                         ) {
                             VehicleHistoryScreen(
                                 onComposing = {

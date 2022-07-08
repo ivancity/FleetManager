@@ -14,7 +14,7 @@ class GetLatestDataUseCase @Inject constructor(
 ) {
 
     /**
-     * We are overriding the operator function in this way getCoinUseCase can be used as a function.
+     * We are overriding the operator function in this way GetLatestDataUseCase can be used as a function.
      */
     operator fun invoke(): Flow<Resource<List<VehicleLastData>>> = flow {
         try {

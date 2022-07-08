@@ -24,7 +24,7 @@ class LatestDataViewModel @Inject constructor(
         getLatestData()
     }
 
-    private fun getLatestData() {
+    fun getLatestData() {
         getLatestDataUseCase().onEach { result ->
             when(result) {
                 is Resource.Success -> {

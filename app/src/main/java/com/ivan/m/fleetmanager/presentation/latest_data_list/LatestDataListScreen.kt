@@ -26,7 +26,7 @@ import com.ivan.m.fleetmanager.presentation.latest_data_list.components.LatestDa
 @Composable
 fun LatestDataListScreen(
     onComposing: (AppBarState) -> Unit,
-    goToVehicleHistoryScreen: () -> Unit,
+    goToVehicleHistoryScreen: (objectId: String) -> Unit,
     viewModel: LatestDataViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
@@ -36,9 +36,9 @@ fun LatestDataListScreen(
                 title = "Vehicles",
                 actions = {
                     IconButton(onClick = {
-                        Log.d("TAG", "LatestDataListScreen: Reresh")
+                        viewModel.getLatestData()
                     }) {
-                        Icon(Icons.Filled.Refresh, "backIcon")
+                        Icon(Icons.Filled.Refresh, "refreshIcon")
                     }
                     IconButton(onClick = {
                         Log.d("TAG", "LatestDataListScreen: Key")
@@ -51,8 +51,8 @@ fun LatestDataListScreen(
     }
     LatestDataBody(
         state = state,
-        goToHistory = {
-            goToVehicleHistoryScreen()
+        goToHistory = { id ->
+            goToVehicleHistoryScreen(id)
         }
     )
 }
@@ -60,7 +60,7 @@ fun LatestDataListScreen(
 @Composable
 fun LatestDataBody(
     state: LatestDataState,
-    goToHistory: () -> Unit
+    goToHistory: (objectId: String) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         if (state.isLoading) {
@@ -89,6 +89,7 @@ fun LatestDataBody(
             ) {
                 items(state.latestData) { data ->
                     LatestDataItem(
+                        id = data.id.toString(),
                         plate = data.plate,
                         name = data.driverName ?: "",
                         address = data.address,

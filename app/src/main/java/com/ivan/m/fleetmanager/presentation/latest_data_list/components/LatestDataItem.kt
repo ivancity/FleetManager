@@ -13,18 +13,21 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun LatestDataItem(
+    id: String,
     plate: String,
     name: String,
     address: String,
     speed: String,
     timestamp: String,
-    onClick: () -> Unit
+    onClick: (objectId: String) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(2.dp)
-            .clickable { onClick() },
+            .clickable {
+                onClick(id)
+                       },
         elevation = 10.dp
     ) {
         Column(
@@ -76,6 +79,7 @@ fun LatestDataItem(
 @Composable
 fun LatestDataItemPreview() {
     LatestDataItem(
+        id = "654",
         plate = "XY654",
         name = "Bob Some very long name here that continues",
         address = "Some Address that is also very very long some what",

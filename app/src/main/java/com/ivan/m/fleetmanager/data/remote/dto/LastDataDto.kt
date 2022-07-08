@@ -13,8 +13,8 @@ data class LastDataDto (
 )
 
 data class LastResponse (
-    val objectID: Long,
-    val orgID: Long,
+    val objectId: Long,
+    val orgId: Long,
     val timestamp: String,
     val latitude: Double,
     val longitude: Double,
@@ -26,7 +26,7 @@ data class LastResponse (
     val power: Double,
     val canDistance: Double? = null,
     val available: Any? = null,
-    val driverID: Long? = null,
+    val driverId: Long? = null,
     val driverUUID: Any? = null,
     val driverName: String? = null,
     val driverKey: Any? = null,
@@ -34,7 +34,7 @@ data class LastResponse (
     val driverStatuses: List<Any?>? = null,
     val driverIsOnDuty: Boolean? = null,
     val dutyTags: List<Any?>? = null,
-    val pairedObjectID: Any? = null,
+    val pairedObjectId: Any? = null,
     val pairedObjectName: Any? = null,
     val lastEngineOnTime: String,
     val inPrivateZone: Boolean,
@@ -44,10 +44,10 @@ data class LastResponse (
     val tcoCardIsPresent: Boolean,
     val address: String,
     val addressArea: Boolean,
-    val addressAreaID: Any? = null,
-    val addressAreaUUID: Any? = null,
+    val addressAreaId: Any? = null,
+    val addressAreaUUId: Any? = null,
     val displayColor: Any? = null,
-    val employeeID: Any? = null,
+    val employeeId: Any? = null,
     val currentOdometer: Any? = null,
     val currentWorkhours: Any? = null,
     val enforcePrivacyFilter: Any? = null,
@@ -56,7 +56,7 @@ data class LastResponse (
     val customValues: List<Any?>,
     val eventType: String,
     val objectName: String,
-    val externalID: Any? = null,
+    val externalId: Any? = null,
     val plate: String,
     val canrpm: Long? = null,
     val greenDrivingValue: Double? = null,
@@ -66,7 +66,7 @@ data class LastResponse (
 fun LastResponse.toVehicleLastData(): VehicleLastData {
     val timeAgoFormat = timestampToZonedDateTime(timestamp)
     return VehicleLastData(
-        id = orgID,
+        id = objectId,
         plate = plate,
         driverName = driverName,
         address = address,
