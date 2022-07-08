@@ -12,21 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import com.ivan.m.fleetmanager.R
 import com.ivan.m.fleetmanager.domain.model.VehicleLastData
-import com.ivan.m.fleetmanager.presentation.Screen
 import com.ivan.m.fleetmanager.presentation.components.AppBarState
 import com.ivan.m.fleetmanager.presentation.latest_data_list.components.LatestDataItem
 
 @Composable
 fun LatestDataListScreen(
     onComposing: (AppBarState) -> Unit,
-    goToVehicleHistoryScreen: (objectId: String) -> Unit,
+    goToVehicleHistoryScreen: (objectId: String, plate: String) -> Unit,
     viewModel: LatestDataViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
@@ -51,8 +47,8 @@ fun LatestDataListScreen(
     }
     LatestDataBody(
         state = state,
-        goToHistory = { id ->
-            goToVehicleHistoryScreen(id)
+        goToHistory = { id, plate ->
+            goToVehicleHistoryScreen(id, plate)
         }
     )
 }
@@ -60,7 +56,7 @@ fun LatestDataListScreen(
 @Composable
 fun LatestDataBody(
     state: LatestDataState,
-    goToHistory: (objectId: String) -> Unit
+    goToHistory: (objectId: String, plate: String) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         if (state.isLoading) {
@@ -194,6 +190,6 @@ fun ComposablePreview() {
             isLoading = false,
             error = ""
         ),
-        goToHistory = {}
+        goToHistory = {_, _ ->}
     )
 }

@@ -11,14 +11,16 @@ fun VehicleHistoryScreen(
     onComposing: (AppBarState) -> Unit,
     viewModel: VehicleHistoryViewModel = hiltViewModel()
 ) {
+    val plate = viewModel.plateState
     LaunchedEffect(key1 = true) {
         onComposing(
             AppBarState(
-                title = "Location History",
+                title = "Location History: $plate",
                 showBackButton = true,
                 actions = null
             )
         )
     }
-    Text(text = "Vehicle History")
+
+    Text(text = "Vehicle History: ")
 }

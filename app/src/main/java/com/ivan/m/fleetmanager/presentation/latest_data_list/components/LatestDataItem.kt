@@ -19,15 +19,13 @@ fun LatestDataItem(
     address: String,
     speed: String,
     timestamp: String,
-    onClick: (objectId: String) -> Unit
+    onClick: (id: String, plate: String) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(2.dp)
-            .clickable {
-                onClick(id)
-                       },
+            .clickable { onClick(id, plate) },
         elevation = 10.dp
     ) {
         Column(
@@ -84,7 +82,6 @@ fun LatestDataItemPreview() {
         name = "Bob Some very long name here that continues",
         address = "Some Address that is also very very long some what",
         speed = "20",
-        timestamp = "1m 22s ago",
-        onClick = {}
-    )
+        timestamp = "1m 22s ago"
+    ) { _, _ -> }
 }

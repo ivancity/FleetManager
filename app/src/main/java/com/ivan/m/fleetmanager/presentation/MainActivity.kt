@@ -50,15 +50,15 @@ class MainActivity : ComponentActivity() {
                                 onComposing = {
                                     appBarState = it
                                 },
-                                goToVehicleHistoryScreen = {
+                                goToVehicleHistoryScreen = { id, plate ->
                                     navController.navigate(
-                                        Screen.VehicleHistoryScreen.route + "/$it"
+                                        Screen.VehicleHistoryScreen.route + "/$id/$plate"
                                     )
                                 }
                             )
                         }
                         composable(
-                            route = Screen.VehicleHistoryScreen.route + "/{${Constants.PARAM_HISTORY}}"
+                            route = Screen.VehicleHistoryScreen.route + "/{${Constants.PARAM_ID}}/{${Constants.PARAM_PLATE}}"
                         ) {
                             VehicleHistoryScreen(
                                 onComposing = {

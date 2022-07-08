@@ -2,6 +2,7 @@ package com.ivan.m.fleetmanager.data.remote.dto
 
 import android.text.format.DateUtils.MINUTE_IN_MILLIS
 import android.text.format.DateUtils.getRelativeTimeSpanString
+import com.ivan.m.fleetmanager.common.Utils
 import com.ivan.m.fleetmanager.domain.model.VehicleLastData
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -64,7 +65,7 @@ data class LastResponse (
 )
 
 fun LastResponse.toVehicleLastData(): VehicleLastData {
-    val timeAgoFormat = timestampToZonedDateTime(timestamp)
+    val timeAgoFormat = Utils.timestampToZonedDateTime(timestamp)
     return VehicleLastData(
         id = objectId,
         plate = plate,
@@ -73,19 +74,4 @@ fun LastResponse.toVehicleLastData(): VehicleLastData {
         timestamp = timeAgoFormat,
         speed = speed
     )
-}
-
-fun timestampToZonedDateTime(timestamp: String): String {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ")
-    val zdtWithZoneOffset = ZonedDateTime
-        .parse(timestamp, formatter)
-    val zdtInLocalTimeline = zdtWithZoneOffset
-        .withZoneSameInstant(ZoneId.systemDefault())
-    val currentMilliseconds = System.currentTimeMillis()
-    val timestampMilliseconds = zdtInLocalTimeline.toInstant().toEpochMilli()
-    return getRelativeTimeSpanString(
-        timestampMilliseconds,
-        currentMilliseconds,
-        MINUTE_IN_MILLIS
-    ).toString()
 }
