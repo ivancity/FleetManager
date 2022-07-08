@@ -44,7 +44,7 @@ fun LatestDataItem(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "$speed km/h",
+                    text = if(speed != "0") { "$speed km/h" } else { "-" },
                     style = MaterialTheme.typography.h6,
                 )
             }

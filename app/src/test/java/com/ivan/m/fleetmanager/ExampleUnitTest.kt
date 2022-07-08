@@ -1,17 +1,21 @@
 package com.ivan.m.fleetmanager
 
 import org.junit.Test
-
-import org.junit.Assert.*
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * Test for getting local date time with the correct time zone.
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun dateTimeWithLocalZone() {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ")
+        val zdtWithZoneOffset = ZonedDateTime
+            .parse("2022-07-08 18:06:04+0300", formatter)
+        val zdtInLocalTimeline = zdtWithZoneOffset
+            .withZoneSameInstant(ZoneId.systemDefault())
+        assert(zdtWithZoneOffset.toString() == "2022-07-08T18:06:04+03:00")
     }
 }

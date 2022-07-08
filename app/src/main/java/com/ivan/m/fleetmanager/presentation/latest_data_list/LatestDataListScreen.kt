@@ -4,15 +4,13 @@ import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +50,7 @@ fun LatestDataListScreen(
         )
     }
     LatestDataBody(
-        latestData = state.latestData,
+        state = state,
         goToHistory = {
             goToVehicleHistoryScreen()
         }
@@ -61,27 +59,47 @@ fun LatestDataListScreen(
 
 @Composable
 fun LatestDataBody(
-    latestData: List<VehicleLastData>,
+    state: LatestDataState,
     goToHistory: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            items(latestData) { data ->
-                LatestDataItem(
-                    plate = data.plate,
-                    name = data.driverName ?: "",
-                    address = data.address,
-                    speed = data.speed.toString(),
-                    timestamp = data.timestamp,
-                    onClick = goToHistory
-                )
+        if (state.isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+
+        }
+        if (state.error.isNotEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("Something went wrong")
             }
         }
+        if (state.latestData.isNotEmpty()){
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(state.latestData) { data ->
+                    LatestDataItem(
+                        plate = data.plate,
+                        name = data.driverName ?: "",
+                        address = data.address,
+                        speed = data.speed.toString(),
+                        timestamp = data.timestamp,
+                        onClick = goToHistory
+                    )
+                }
+            }
+        }
+
     }
 }
 
@@ -89,23 +107,91 @@ fun LatestDataBody(
 @Composable
 fun ComposablePreview() {
     LatestDataBody(
-        latestData = listOf(
-            VehicleLastData(
-                id = 654,
-                plate = "XYZ987",
-                driverName = "Driver Name Some very long name",
-                address = "Address Long here that is actually ver long more than 1 line.",
-                speed = 20,
-                timestamp = "1h 3m ago"
+        state = LatestDataState(
+            latestData = listOf(
+                VehicleLastData(
+                    id = 654,
+                    plate = "XYZ987",
+                    driverName = "Driver Name Some very long name",
+                    address = "Address Long here that is actually ver long more than 1 line.",
+                    speed = 20,
+                    timestamp = "1h 3m ago"
+                ),
+                VehicleLastData(
+                    id = 655,
+                    plate = "XYZ987",
+                    driverName = "Driver Name",
+                    address = "Address Long here",
+                    speed = 0,
+                    timestamp = "1h 3m ago"
+                ),
+                VehicleLastData(
+                    id = 656,
+                    plate = "XYZ987",
+                    driverName = "Driver Name",
+                    address = "Address Long here",
+                    speed = 20,
+                    timestamp = "1h 3m ago"
+                ),
+                VehicleLastData(
+                    id = 657,
+                    plate = "XYZ987",
+                    driverName = "Driver Name",
+                    address = "Address Long here",
+                    speed = 20,
+                    timestamp = "1h 3m ago"
+                ),
+                VehicleLastData(
+                    id = 658,
+                    plate = "XYZ987",
+                    driverName = "Driver Name",
+                    address = "Address Long here",
+                    speed = 0,
+                    timestamp = "1h 3m ago"
+                ),
+                VehicleLastData(
+                    id = 659,
+                    plate = "XYZ987",
+                    driverName = "Driver Name",
+                    address = "Address Long here",
+                    speed = 20,
+                    timestamp = "1h 3m ago"
+                ),
+                VehicleLastData(
+                    id = 660,
+                    plate = "XYZ987",
+                    driverName = "Driver Name",
+                    address = "Address Long here",
+                    speed = 20,
+                    timestamp = "1h 3m ago"
+                ),
+                VehicleLastData(
+                    id = 661,
+                    plate = "XYZ987",
+                    driverName = "Driver Name",
+                    address = "Address Long here",
+                    speed = 20,
+                    timestamp = "1h 3m ago"
+                ),
+                VehicleLastData(
+                    id = 662,
+                    plate = "XYZ987",
+                    driverName = "Driver Name",
+                    address = "Address Long here",
+                    speed = 20,
+                    timestamp = "1h 3m ago"
+                ),
+                VehicleLastData(
+                    id = 663,
+                    plate = "XYZ987",
+                    driverName = "Driver Name",
+                    address = "Address Long here",
+                    speed = 20,
+                    timestamp = "1h 3m ago"
+                )
             ),
-            VehicleLastData(
-                id = 655,
-                plate = "XYZ987",
-                driverName = "Driver Name",
-                address = "Address Long here",
-                speed = 20,
-                timestamp = "1h 3m ago"
-            )
+            isLoading = false,
+            error = ""
         ),
         goToHistory = {}
     )
