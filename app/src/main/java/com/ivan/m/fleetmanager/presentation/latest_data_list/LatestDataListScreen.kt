@@ -1,5 +1,6 @@
 package com.ivan.m.fleetmanager.presentation.latest_data_list
 
+import android.util.Log
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -20,7 +21,7 @@ import com.ivan.m.fleetmanager.presentation.components.AppBarState
 @Composable
 fun LatestDataListScreen(
     onComposing: (AppBarState) -> Unit,
-    navController: NavController,
+    goToVehicleHistoryScreen: () -> Unit,
     viewModel: LatestDataViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = true) {
@@ -28,10 +29,14 @@ fun LatestDataListScreen(
             AppBarState(
                 title = "Vehicles",
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        Log.d("TAG", "LatestDataListScreen: Reresh")
+                    }) {
                         Icon(Icons.Filled.Refresh, "backIcon")
                     }
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        Log.d("TAG", "LatestDataListScreen: Key")
+                    }) {
                         Icon(Icons.Filled.Key, "keyIcon")
                     }
                 }
@@ -39,9 +44,7 @@ fun LatestDataListScreen(
         )
     }
     LatestDataBody(goToHistory = {
-        navController.navigate(
-            Screen.VehicleHistoryScreen.route
-        )
+        goToVehicleHistoryScreen()
     })
 }
 
