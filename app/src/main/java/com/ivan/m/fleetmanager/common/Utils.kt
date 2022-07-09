@@ -9,7 +9,17 @@ import java.time.format.DateTimeFormatter
 object Utils {
     fun yesterdayString(): String {
         val today = LocalDate.now()
-        return today.minusDays(1).format(DateTimeFormatter.ISO_DATE);
+        return subtractOneDayFrom(today)
+    }
+
+    fun getPreviousDateFrom(date: String): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val dateParsed = LocalDate.parse(date, formatter)
+        return subtractOneDayFrom(dateParsed)
+    }
+
+    private fun subtractOneDayFrom(date: LocalDate): String {
+        return date.minusDays(1).format(DateTimeFormatter.ISO_DATE)
     }
 
     fun timestampToZonedDateTime(timestamp: String): String {

@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivan.m.fleetmanager.common.Constants
 import com.ivan.m.fleetmanager.common.Resource
 import com.ivan.m.fleetmanager.common.Utils
+import com.ivan.m.fleetmanager.common.Utils.getPreviousDateFrom
 import com.ivan.m.fleetmanager.domain.use_case.get_history.GetVehicleHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -25,6 +26,7 @@ class VehicleHistoryViewModel @Inject constructor(
 
     private val _state = mutableStateOf(VehicleHistoryState())
     val state: State<VehicleHistoryState> = _state
+    var objectId: String? = null
 
     var plateState by mutableStateOf("")
 
@@ -32,11 +34,18 @@ class VehicleHistoryViewModel @Inject constructor(
         savedStateHandle.get<String>(Constants.PARAM_ID)?.let { id ->
             savedStateHandle.get<String>(Constants.PARAM_PLATE)?.let { plate ->
                 plateState = plate
+                objectId = id
                 val yesterday = Utils.yesterdayString()
                 val today = LocalDate.now().toString()
                 getVehicleHistory(id, yesterday, today)
             }
         }
+    }
+
+    fun handleDateChanged(date: String) {
+        val id = objectId ?: return
+        val previousDate = getPreviousDateFrom(date)
+        getVehicleHistory(id, previousDate, date)
     }
 
     private fun getVehicleHistory(
