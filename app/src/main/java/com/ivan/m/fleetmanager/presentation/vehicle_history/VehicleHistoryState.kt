@@ -6,5 +6,7 @@ data class VehicleHistoryState(
     val isLoading: Boolean = false,
     val error: String = "",
     val latLongList: List<LatLong> = emptyList(),
-    val tripDistance: String = ""
+    val tripDistance: String = "",
+    val firstCoordinate: LatLong? = null,
+    val lastCoordinate: LatLong? = null
 )

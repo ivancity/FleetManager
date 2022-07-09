@@ -11,6 +11,7 @@ import com.ivan.m.fleetmanager.common.Constants
 import com.ivan.m.fleetmanager.common.Resource
 import com.ivan.m.fleetmanager.common.Utils
 import com.ivan.m.fleetmanager.common.Utils.getPreviousDateFrom
+import com.ivan.m.fleetmanager.domain.model.LatLong
 import com.ivan.m.fleetmanager.domain.use_case.get_history.GetVehicleHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -61,7 +62,9 @@ class VehicleHistoryViewModel @Inject constructor(
             when(result) {
                 is Resource.Success -> {
                     _state.value = VehicleHistoryState(
-                        latLongList = result.data ?: emptyList()
+                        latLongList = result.data ?: emptyList(),
+                        firstCoordinate = result.data?.first(),
+                        lastCoordinate = result.data?.last()
                     )
                 }
                 is Resource.Error -> {
