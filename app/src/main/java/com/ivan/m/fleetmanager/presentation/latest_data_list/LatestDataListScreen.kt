@@ -1,6 +1,5 @@
 package com.ivan.m.fleetmanager.presentation.latest_data_list
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,6 +9,8 @@ import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivan.m.fleetmanager.domain.model.VehicleLastData
 import com.ivan.m.fleetmanager.presentation.components.AppBarState
+import com.ivan.m.fleetmanager.presentation.latest_data_list.components.CustomDialog
 import com.ivan.m.fleetmanager.presentation.latest_data_list.components.LatestDataItem
 
 @Composable
@@ -26,6 +28,8 @@ fun LatestDataListScreen(
     viewModel: LatestDataViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
+    val showDialog = remember { mutableStateOf(false) }
+
     LaunchedEffect(key1 = true) {
         onComposing(
             AppBarState(
@@ -37,7 +41,7 @@ fun LatestDataListScreen(
                         Icon(Icons.Filled.Refresh, "refreshIcon")
                     }
                     IconButton(onClick = {
-                        Log.d("TAG", "LatestDataListScreen: Key")
+                        showDialog.value = true
                     }) {
                         Icon(Icons.Filled.Key, "keyIcon")
                     }
@@ -45,6 +49,18 @@ fun LatestDataListScreen(
             )
         )
     }
+
+    if (showDialog.value) {
+        CustomDialog(
+            value = viewModel.getApiKey(),
+            setShowDialog = {
+                showDialog.value = it
+            }, setValue = {
+                viewModel.setApiKey(apiKey = it)
+            }
+        )
+    }
+
     LatestDataBody(
         state = state,
         goToHistory = { id, plate ->

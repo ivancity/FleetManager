@@ -1,5 +1,6 @@
 package com.ivan.m.fleetmanager.presentation.latest_data_list
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,14 @@ class LatestDataViewModel @Inject constructor(
 
     init {
         getLatestData()
+    }
+
+    fun getApiKey(): String {
+        return preferences.loadApiKey()
+    }
+
+    fun setApiKey(apiKey: String) {
+        preferences.save(apiKey = apiKey)
     }
 
     fun getLatestData() {
