@@ -1,9 +1,14 @@
 package com.ivan.m.fleetmanager.di
 
+import android.app.Application
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import com.ivan.m.fleetmanager.common.Constants
 import com.ivan.m.fleetmanager.data.remote.FleetApi
 import com.ivan.m.fleetmanager.data.repository.FleetRepositoryImpl
+import com.ivan.m.fleetmanager.domain.preferences.Preferences
 import com.ivan.m.fleetmanager.domain.repository.FleetRepository
+import com.ivan.m.fleetmanager.domain.use_case.preferences.DefaultPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,5 +37,19 @@ object AppModule {
     @Singleton
     fun provideFleetRepository(api: FleetApi): FleetRepository {
         return FleetRepositoryImpl(api = api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(
+        app: Application
+    ): SharedPreferences {
+        return app.getSharedPreferences("fleet_shared_pref", MODE_PRIVATE)
+    }
+
+    @Provides
+    @Singleton
+    fun providePreferences(sharedPreferences: SharedPreferences): Preferences {
+        return DefaultPreferences(sharedPreferences)
     }
 }

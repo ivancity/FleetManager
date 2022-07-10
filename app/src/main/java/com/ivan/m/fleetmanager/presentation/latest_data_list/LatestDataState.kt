@@ -5,5 +5,6 @@ import com.ivan.m.fleetmanager.domain.model.VehicleLastData
 data class LatestDataState(
     val isLoading: Boolean = false,
     val latestData: List<VehicleLastData> = emptyList(),
-    val error: String = ""
+    val error: String = "",
+    val apiKeyIsFound: Boolean = true
 )

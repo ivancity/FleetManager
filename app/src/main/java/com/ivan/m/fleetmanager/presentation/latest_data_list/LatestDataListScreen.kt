@@ -59,6 +59,17 @@ fun LatestDataBody(
     goToHistory: (objectId: String, plate: String) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
+        if (!state.apiKeyIsFound) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text ="API key was not found please add one. You can try tapping on the key icon to enter a key.",
+                    modifier = Modifier.padding(horizontal = 20.dp)
+                )
+            }
+        }
         if (state.isLoading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
