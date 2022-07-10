@@ -1,6 +1,8 @@
 package com.ivan.m.fleetmanager.common
 
 import android.text.format.DateUtils
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -10,6 +12,12 @@ object Utils {
     fun yesterdayString(): String {
         val today = LocalDate.now()
         return subtractOneDayFrom(today)
+    }
+
+    fun metersToKm(meters: Double): String {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.DOWN
+        return df.format(meters * 0.001)
     }
 
     fun getPreviousDateFrom(date: String): String {

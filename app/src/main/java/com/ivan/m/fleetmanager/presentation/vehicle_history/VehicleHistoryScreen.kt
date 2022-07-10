@@ -2,23 +2,25 @@ package com.ivan.m.fleetmanager.presentation.vehicle_history
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.toMutableStateList
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.RoundCap
 import com.google.maps.android.SphericalUtil
 import com.google.maps.android.compose.*
+import com.ivan.m.fleetmanager.common.Utils
 import com.ivan.m.fleetmanager.presentation.components.AppBarState
 import com.ivan.m.fleetmanager.presentation.vehicle_history.components.DatePickerComponent
 
@@ -65,9 +67,6 @@ fun VehicleHistoryBody(
 @Composable
 fun MapView(state: VehicleHistoryState) {
     val centerMarker = state.firstCoordinate?.let {  LatLng(it.latitude, it.longitude) }
-    val googleCoordinates = state.latLongList.map { LatLng(it.latitude, it.longitude) }
-//    val length = SphericalUtil.computeLength(googleCoordinates)
-
 
     Box(Modifier.fillMaxSize()) {
         if (state.isLoading) {
@@ -82,6 +81,14 @@ fun MapView(state: VehicleHistoryState) {
             )
         }
         if (centerMarker != null) {
+            val googleCoordinates = remember(state.latLongList) {
+                state.latLongList.map { LatLng(it.latitude, it.longitude) }
+            }
+
+            val length = remember(googleCoordinates) {
+                Utils.metersToKm(SphericalUtil.computeLength(googleCoordinates))
+            }
+
             val cameraPositionState = rememberCameraPositionState {
                 position = CameraPosition.fromLatLngZoom(centerMarker, 11.5f)
             }
@@ -114,7 +121,12 @@ fun MapView(state: VehicleHistoryState) {
                 }
             }
             Text(
-                text = "Trip Distance: ",
+                text = "Trip Distance: $length km",
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp,
+                color = MaterialTheme.colors.primary,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 12.dp)
