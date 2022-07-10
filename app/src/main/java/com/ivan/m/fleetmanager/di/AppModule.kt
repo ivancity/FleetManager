@@ -35,8 +35,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFleetRepository(api: FleetApi): FleetRepository {
-        return FleetRepositoryImpl(api = api)
+    fun provideFleetRepository(preferences: Preferences, api: FleetApi): FleetRepository {
+        return FleetRepositoryImpl(preferences = preferences, api = api)
     }
 
     @Provides

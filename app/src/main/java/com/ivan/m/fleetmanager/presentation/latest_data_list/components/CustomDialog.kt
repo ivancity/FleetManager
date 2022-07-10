@@ -23,7 +23,7 @@ fun CustomDialog(
             setShowDialog(false)
         },
         title = {
-            Text(text = "Title")
+            Text(text = "Enter API key")
         },
         text = {
             Column() {
@@ -41,7 +41,7 @@ fun CustomDialog(
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        setValue(textValue)
+                        setValue(textValue.trim())
                         setShowDialog(false)
                     }
                 ) {

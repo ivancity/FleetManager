@@ -5,6 +5,7 @@ import com.ivan.m.fleetmanager.data.remote.dto.toLatLong
 import com.ivan.m.fleetmanager.data.remote.dto.toVehicleLastData
 import com.ivan.m.fleetmanager.domain.model.LatLong
 import com.ivan.m.fleetmanager.domain.model.VehicleLastData
+import com.ivan.m.fleetmanager.domain.preferences.Preferences
 import com.ivan.m.fleetmanager.domain.repository.FleetRepository
 import javax.inject.Inject
 
@@ -12,12 +13,12 @@ import javax.inject.Inject
  * Repository implementation for the FleetApi interface.
  */
 class FleetRepositoryImpl @Inject constructor(
+    private val preferences: Preferences,
     private val api: FleetApi
 ) : FleetRepository {
 
-    val key: String = ""
-
     override suspend fun getLatestData(): List<VehicleLastData> {
+        val key = preferences.loadApiKey()
         val lastResponse = api.getLastData(key = key)
         return lastResponse.response.map { it.toVehicleLastData() }
     }
@@ -27,6 +28,7 @@ class FleetRepositoryImpl @Inject constructor(
         endTimestamp: String,
         objectId: String
     ): List<LatLong> {
+        val key = preferences.loadApiKey()
         val rawResponse = api.getRawData(
             begTimestamp = begTimestamp,
             endTimestamp = endTimestamp,
